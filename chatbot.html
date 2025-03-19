@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Chatbot</title>
+    <style>
+        /* Common styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        /* Chatbot toggle button */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Chatbot container */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            background-color: white;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .chatbot-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Message area */
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .chatbot-option {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .chatbot-option:hover {
+            background-color: #d4edda;
+        }
+
+        /* Input area */
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chatbot-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        .chatbot-input button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Chatbot Toggle Button -->
+<button class="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+
+<!-- Chatbot Container -->
+<div class="chatbot-container" id="chatbot">
+    <div class="chatbot-header">
+        How can we assist you?
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages">
+        <div>In which part do you need assistance?</div>
+        <div class="chatbot-option" onclick="handleOption('Admissions')">Admissions</div>
+        <div class="chatbot-option" onclick="handleOption('Facilities')">Facilities</div>
+        <div class="chatbot-option" onclick="handleOption('Rules')">Rules and Regulations</div>
+        <div class="chatbot-option" onclick="handleOption('Achievements')">Achievements</div>
+        <div class="chatbot-option" onclick="handleOption('Contact')">Contact Information</div>
+        <div class="chatbot-option" onclick="handleOption('Timings')">School Timings</div>
+    </div>
+    <div class="chatbot-input">
+        <input type="text" id="userInput" placeholder="Type your message here..." autocomplete="off" disabled>
+        <button onclick="sendMessage()" disabled>Send</button>
+    </div>
+</div>
+
+<script>
+    const chatbotContainer = document.getElementById("chatbot");
+
+    function toggleChatbot() {
+        const isHidden = chatbotContainer.style.display === "none" || chatbotContainer.style.display === "";
+        chatbotContainer.style.display = isHidden ? "flex" : "none";
+    }
+
+    function handleOption(option) {
+        const messagesContainer = document.getElementById("chatbot-messages");
+        const userMessage = document.createElement("div");
+        userMessage.textContent = `You selected: ${option}`;
+        userMessage.style.padding = "10px";
+        userMessage.style.margin = "10px 0";
+        userMessage.style.borderRadius = "10px";
+        userMessage.style.backgroundColor = "#e0e0e0";
+        userMessage.style.textAlign = "right";
+        messagesContainer.appendChild(userMessage);
+
+        const botResponse = document.createElement("div");
+        botResponse.innerHTML = getBotResponse(option);
+        botResponse.style.padding = "10px";
+        botResponse.style.margin = "10px 0";
+        botResponse.style.borderRadius = "10px";
+        botResponse.style.backgroundColor = "#d4edda";
+        botResponse.style.textAlign = "left";
+        messagesContainer.appendChild(botResponse);
+
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function getBotResponse(option) {
+        switch (option.toLowerCase()) {
+            case "admissions":
+                return 'To enroll at Nayana Vidyanikethana Patashale, please visit the <a href="admission_notice.html">Admissions</a> page.';
+            case "facilities":
+                return 'Our school provides modern classrooms, labs, and sports facilities. Visit our <a href="facilities.html">Facilities</a> page for more.';
+            case "rules":
+                return 'Our <a href="rules_and_regulations.html">Rules and Regulations</a> page outlines the school\'s policies.';
+            case "achievements":
+                return 'Check our <a href="achievements.html">Achievements</a> page to see what we\'ve accomplished!';
+            case "contact":
+                return 'Contact us at nayana.vidya.nikethana@gmail.com or call 9980183555. For more information, visit our <a href="contact.html">Contact</a> page.';
+            case "timings":
+                return 'School hours: 9:00 AM to 4:00 PM. Office hours: 9:00 AM to 5:30 PM. For details, visit our <a href="index.html">Home</a> page.';
+            default:
+                return 'I\'m here to assist you with any queries! Visit our <a href="index.html">Home</a> page for more information.';
+        }
+    }
+</script>
+
+</body>
+</html>

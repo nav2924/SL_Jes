@@ -1,0 +1,284 @@
+<style>
+    .chatbot-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    
+    .chatbot-toggle {
+        background: #222e50;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .chatbot-toggle:hover {
+        transform: scale(1.1);
+        background: #426b69;
+    }
+    
+    .chat-window {
+        width: 350px;
+        height: 500px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        display: none;
+        flex-direction: column;
+    }
+    
+    .chat-header {
+        background: #222e50;
+        color: white;
+        padding: 15px;
+        border-radius: 15px 15px 0 0;
+        font-family: 'Playfair Display', serif;
+    }
+    
+    .chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background: #f8f9fa;
+    }
+    
+    .message {
+        margin: 10px 0;
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 15px;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .user-message {
+        background: #426b69;
+        color: white;
+        margin-left: auto;
+    }
+    
+    .bot-message {
+        background: white;
+        border: 1px solid #eee;
+        margin-right: auto;
+    }
+    
+    .quick-replies {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 10px;
+        background: white;
+        border-top: 1px solid #eee;
+    }
+    
+    .quick-reply {
+        background: #f0f3f5;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .quick-reply:hover {
+        background: #426b69;
+        color: white;
+    }
+    
+    .chat-input {
+        display: flex;
+        padding: 15px;
+        border-top: 1px solid #eee;
+    }
+    
+    .chat-input input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        margin-right: 10px;
+    }
+    
+    .chat-input button {
+        background: #426b69;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+    
+    .chat-input button:hover {
+        background: #2a4849;
+    }
+    
+    .typing-indicator {
+        display: none;
+        padding: 10px 15px;
+        font-style: italic;
+        color: #666;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    </style>
+    
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
+        <div class="chat-window">
+            <div class="chat-header">
+                <h3>Padhashala Assistant</h3>
+                <p>How can I help you today?</p>
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="typing-indicator" id="typing">Assistant is typing...</div>
+            <div class="quick-replies" id="quick-replies"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your question...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    let isChatOpen = false;
+    const quickReplies = [
+        'Admissions', 'Facilities', 'Rules', 
+        'Achievements', 'Contact', 'Timings'
+    ];
+    
+    function toggleChat() {
+        const chatWindow = document.querySelector('.chat-window');
+        isChatOpen = !isChatOpen;
+        chatWindow.style.display = isChatOpen ? 'flex' : 'none';
+        if (isChatOpen) {
+            document.getElementById('user-input').focus();
+            showQuickReplies();
+        }
+    }
+    
+    function showQuickReplies() {
+        const container = document.getElementById('quick-replies');
+        container.innerHTML = quickReplies.map(reply => `
+            <button class="quick-reply" onclick="handleQuickReply('${reply}')">
+                ${reply}
+            </button>
+        `).join('');
+    }
+    
+    function handleQuickReply(reply) {
+        addMessage(reply, 'user');
+        processMessage(reply);
+    }
+    
+    function addMessage(text, sender) {
+        const messages = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        messageDiv.innerHTML = text;
+        messages.appendChild(messageDiv);
+        messages.scrollTop = messages.scrollHeight;
+    }
+    
+    function showTyping() {
+        document.getElementById('typing').style.display = 'block';
+    }
+    
+    function hideTyping() {
+        document.getElementById('typing').style.display = 'none';
+    }
+    
+    async function processMessage(message) {
+        showTyping();
+        
+        // Simulate processing delay
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        const response = getBotResponse(message);
+        addMessage(response, 'bot');
+        hideTyping();
+        showQuickReplies();
+    }
+    
+    function getBotResponse(input) {
+        input = input.toLowerCase();
+        const responses = {
+            admissions: {
+                keywords: ['admission', 'enroll', 'apply', 'join'],
+                response: `Our admission process begins every January. Check our 
+                    <a href="admission_notice.html" target="_blank">Admissions Page</a> 
+                    for requirements and important dates. Would you like me to send you 
+                    the admission brochure?`
+            },
+            facilities: {
+                keywords: ['facility', 'infrastructure', 'lab', 'sports'],
+                response: `We offer state-of-the-art facilities including smart classrooms, 
+                    science labs, and sports complex. Explore our 
+                    <a href="facilities.html" target="_blank">Facilities Gallery</a> 
+                    for virtual tour.`
+            },
+            rules: {
+                keywords: ['rule', 'regulation', 'policy', 'dress code'],
+                response: `Our school maintains a positive learning environment through 
+                    <a href="rules_and_regulations.html" target="_blank">Well-defined Policies</a>. 
+                    Need clarification on any specific rule?`
+            },
+            achievements: {
+                keywords: ['achievement', 'result', 'award', 'rank'],
+                response: `Our students consistently excel in academics and extracurriculars. 
+                    See our <a href="achievements.html" target="_blank">Hall of Fame</a> 
+                    for recent accomplishments.`
+            },
+            contact: {
+                keywords: ['contact', 'reach', 'visit', 'location'],
+                response: `We're available Mon-Sat, 9AM-5PM. 
+                    <a href="contact.html" target="_blank">Contact Page</a> | 
+                    📞 9980183555 | 📍JP Nagar, Bangalore`
+            },
+            timings: {
+                keywords: ['time', 'hour', 'schedule', 'holiday'],
+                response: `School Hours: 8:30AM-3:30PM (Mon-Fri)<br>
+                    Office Hours: 8:30AM-5:00PM (Mon-Sat)<br>
+                    Holiday list available on our <a href="index.html">Portal</a>`
+            }
+        };
+    
+        // Find matching response
+        const match = Object.entries(responses).find(([_, data]) => 
+            data.keywords.some(keyword => input.includes(keyword))
+        );
+    
+        return match ? match[1].response : 
+            `I'm happy to help! Could you please rephrase your question?<br>
+            Try asking about:<br>
+            • Admissions process<br>
+            • School facilities<br>
+            • Academic programs<br>
+            • Or choose from quick replies below`;
+    }
+    
+    function sendMessage() {
+        const input = document.getElementById('user-input');
+        if (input.value.trim()) {
+            addMessage(input.value, 'user');
+            processMessage(input.value);
+            input.value = '';
+        }
+    }
+    
+    // Handle Enter key
+    document.getElementById('user-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+    </script>

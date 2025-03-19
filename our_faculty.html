@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nayana Vidyanikethana Patashale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles & Root Colours */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --primary-color: #222e50;    /* Dark navy */
+      --secondary-color: #2a4849;  /* Dark teal */
+      --accent-color: #426b69;     /* Medium teal */
+      --background-light: #b5ca8d;  /* Light sage green */
+      --text-dark: #222e50;        /* Dark navy */
+      --text-light: #FFFFFF;       /* White */
+      --success-color: #8bb174;    /* Sage green */
+      --warning-color: #b5ca8d;    /* Light sage green */
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      width: 100%;
+      line-height: 1.6;
+      background: #f4f4f4;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background: var(--primary-color);
+      padding: 0.5rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 50px;
+    }
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .School_name {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      font-family: 'Playfair Display', serif;
+    }
+    .navbar-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      height: 100%;
+    }
+    .navbar-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+    .navbar-links a:hover,
+    .dropdown-content a:hover {
+      background: var(--accent-color);
+    }
+    /* Navbar Dropdown */
+    .dropdown {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .dropbtn {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+    }
+    .dropdown-icon {
+      font-size: 0.8rem;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(172, 87, 87, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .dropdown-content a {
+      color: var(--text-dark) !important;
+      padding: 0.8rem 1rem !important;
+      display: block;
+      font-size: 0.9rem;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: rgb(255, 255, 255);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: linear-gradient(135deg, #b5ca8d, #8bb174);
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 0;
+      z-index: 1001;
+      box-shadow: 2px 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .sidebar-logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .sidebar-school-name {
+      color: var(--text-light);
+      font-size: 1rem;
+      font-family: 'Playfair Display', serif;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+    .close-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-content {
+      padding: 1rem;
+    }
+    .sidebar a {
+      padding: 0.8rem 1rem;
+      text-decoration: none;
+      font-size: 1rem;
+      color: white;
+      display: block;
+      transition: 0.3s;
+      border-radius: 8px;
+    }
+    .sidebar a:hover {
+      background-color: rgba(62, 172, 28, 0.1);
+      transform: translateX(5px);
+    }
+    /* Sidebar Dropdown */
+    .sidebar-dropdown {
+      margin: 0.5rem 0;
+    }
+    .dropdown-btn {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      text-align: left;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .dropdown-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-dropdown-content {
+      display: none;
+      padding-left: 1rem;
+    }
+    .sidebar-dropdown-content a {
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+    }
+    .sidebar-dropdown.active .dropdown-icon {
+      transform: rotate(180deg);
+    }
+    .sidebar-dropdown.active .sidebar-dropdown-content {
+      display: block;
+    }
+
+    /* Footer Styles */
+    .footer {
+      background: var(--primary-color);
+      color: var(--text-light);
+      padding: 4rem 2rem 2rem;
+      margin-top: 100px;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+    }
+    .map-container {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .map-container iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+    .contact-details {
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    .contact-details h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      font-family: 'Playfair Display', serif;
+    }
+    .footer-bottom {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .principal-section {
+            text-align: center;
+            padding: 80px 20px 40px 20px; /* Increased top padding */
+        }
+
+
+        .principal-section h2 {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 20px;
+            color: black;
+            font-size: 2.5em; /* Increased font size */
+        }
+
+        .principal-container {
+            display: inline-block;
+            text-align: left;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            max-width: 800px; /* Increased max-width for rectangle */
+            background-color: #a5c3de;
+        }
+
+        .principal-image {
+            width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+        .principal-details {
+            text-align: left;
+            line-height: 1.6; /* Improved line spacing */
+        }
+
+
+        .principal-details h3 { /* Center the principal's title */
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .principal-details p {
+            margin-bottom: 15px; /* Spacing between paragraphs */
+            text-align: justify; /* Justify paragraphs */
+        }
+
+        .principal-details p:last-child {
+            margin-bottom: 0; /* Remove bottom margin from last paragraph */
+            font-style: italic;
+            text-align: center; /* Center the quote */
+        }
+
+
+    @media (max-width: 1024px) {
+      .navbar-container {
+        padding: 0 1rem;
+      }
+      .School_name {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="mySidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <img src="logo.jpg" alt="School Logo" class="sidebar-logo-img">
+        <span class="sidebar-school-name">Nayana Vidyanikethana Patashale</span>
+      </div>
+      <button class="close-btn" onclick="closeNav()">×</button>
+    </div>
+    <div class="sidebar-content">
+      <a href="index.html">Home</a>
+      <div class="sidebar-dropdown">
+        <button class="dropdown-btn">About
+          <span class="dropdown-icon">▼</span>
+        </button>
+        <div class="sidebar-dropdown-content">
+          <a href="about_us.html">About the School</a>
+          <a href="facilities.html">Facilities</a>
+          <a href="rules_and_regulations.html">Our Rules and Regulations</a>
+          <a href="achievements.html">Our Achievements</a>
+        </div>
+      </div>
+      <a href="admission_notice.html">Admissions</a>
+      <a href="student_life.html">Student Life</a>
+      <a href="our_faculty.html">Faculty</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-logo">
+        <img class="logo" src="logo.jpg" alt="School Logo">
+        <div class="School_name">Nayana Vidyanikethana Patashale</div>
+      </div>
+      <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <div class="dropdown">
+          <a href="#" class="dropbtn">About <span class="dropdown-icon">▼</span></a>
+          <div class="dropdown-content">
+            <a href="about_us.html">About the School</a>
+            <a href="facilities.html">Facilities</a>
+            <a href="rules_and_regulations.html">Our Rules and Regulations</a>
+            <a href="achievements.html">Our Achievements</a>
+          </div>
+        </div>
+        <a href="admission_notice.html">Admissions</a>
+        <a href="student_life.html">Student Life</a>
+        <a href="our_faculty.html">Faculty</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" onclick="openNav()">☰</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <section class="principal-section">
+        <h2>Our Principal</h2>
+        <div class="principal-container">
+            <img class="principal-image" src="principal.jpg" alt="Principal">
+            <div class="principal-details">
+                <h3 style="color: var(--text-dark); font-size: 1.5rem;"> Dr. Sudha Venkatappa V – Principal & Chairman</h3>
+                <p style="color: var(--text-dark); font-size: 1rem;">
+                    Dr. Sudha Venkatappa V is a visionary leader and dedicated educator who has been at the helm of Nayana Vidyanikethana Patashale as its Principal and Chairman for the past six years. With a rich experience of over 15 years in the field of education, she has played a pivotal role in shaping the institution’s academic excellence and holistic development.
+                </p>
+                <p style="color: var(--text-dark); font-size: 1rem;">
+                    Her leadership is driven by a passion for fostering a nurturing and dynamic learning environment where students are encouraged to think critically, innovate, and excel. Under her guidance, the school has witnessed significant advancements in curriculum development, student engagement, and extracurricular initiatives.
+                </p>
+                <p style="color: var(--text-dark); font-size: 1rem;">
+                    Dr. Sudha firmly believes that education extends beyond textbooks and classrooms. She is committed to empowering both students and teachers, ensuring that learning remains an evolving and enriching experience. Through her progressive vision and unwavering dedication, she continues to inspire the next generation of learners and educators alike.
+                </p>
+                <p style="color: var(--text-dark); font-size: 1rem;">
+                    "Education is not just about acquiring knowledge; it is about shaping character, instilling values, and preparing individuals to contribute meaningfully to society."
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-content">
+      <!-- Map Section -->
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.4792720909886!2d77.4802536751554!3d12.87687408742984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f598d335973%3A0xaed53f68591c9b4e!2sNayana%20Vidyanikethana%20Patashale!5e0!3m2!1sen!2sin!4v1736152862000!5m2!1sen!2sin" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <!-- Contact Details Section -->
+      <div class="contact-details">
+        <h3>Contact Us</h3>
+        <p><strong>Email:</strong> nayana.vidya.nikethana@gmail.com</p>
+        <p><strong>Phone:</strong> 9980183555</p>
+        <p><strong>Address:</strong> VFGM+P4W, C.V., 3rd Cross Rd, JP Nagar, Raghavana Palya, Karnataka 560062</p>
+        <p><strong>School Timing:</strong> 9:00 AM - 4:00 PM</p>
+        <p><strong>Office Timing:</strong> 9:00 AM - 5:30 PM</p>
+      </div>
+    </div>
+    <!-- Footer Bottom Section -->
+    <div class="footer-bottom">
+      <p>&copy; 2025 Padhashala. All Rights Reserved.</p>
+      <p>VFGM+P4W, C.V., 3rd Cross Rd, JP Nagar, Raghavana Palya, Karnataka 560062 | 9980183555 | nayana.vidya.nikethana@gmail.com</p>
+    </div>
+  </div>
+
+  <script>
+    // Sidebar Toggle Functions
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "300px";
+    }
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+    }
+    // Sidebar Dropdown Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+      dropdownBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const dropdownParent = this.parentElement;
+          const wasActive = dropdownParent.classList.contains('active');
+          // Close all dropdowns
+          document.querySelectorAll('.sidebar-dropdown').forEach(dropdown => {
+            dropdown.classList.remove('active');
+          });
+          // Toggle the clicked dropdown
+          if (!wasActive) {
+            dropdownParent.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

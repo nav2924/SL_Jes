@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Padhashala</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+    /* Global Styles & Root Colours */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    :root {
+        --primary-color: #222e50;    /* Dark navy */
+        --secondary-color: #2a4849;  /* Dark teal */
+        --accent-color: #426b69;     /* Medium teal */
+        --background-light: #b5ca8d;  /* Light sage green */
+        --text-dark: #222e50;        /* Dark navy */
+        --text-light: #FFFFFF;       /* White */
+        --success-color: #8bb174;    /* Sage green */
+        --warning-color: #b5ca8d;    /* Light sage green */
+    }
+    body {
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+        width: 100%;
+        line-height: 1.6;
+        background: #f4f4f4;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+        background: var(--primary-color);
+        padding: 0.5rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+    }
+    .navbar-logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    .School_name {
+        font-size: 1.2rem;
+        color: var(--text-light);
+        font-family: 'Playfair Display', serif;
+    }
+    .navbar-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        height: 100%;
+    }
+    .navbar-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+    .navbar-links a:hover,
+    .dropdown-content a:hover {
+        background: var(--accent-color);
+    }
+    /* Navbar Dropdown */
+    .dropdown {
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .dropbtn {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        cursor: pointer;
+    }
+    .dropdown-icon {
+        font-size: 0.8rem;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 200px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .dropdown-content a {
+        color: var(--text-dark) !important;
+        padding: 0.8rem 1rem !important;
+        display: block;
+        font-size: 0.9rem;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text-light);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: linear-gradient(135deg, var(--background-light), var(--success-color));
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 0;
+        z-index: 1001;
+        box-shadow: 2px 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-header {
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .sidebar-logo-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    .sidebar-school-name {
+        color: var(--text-light);
+        font-size: 1rem;
+        font-family: 'Playfair Display', serif;
+    }
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+    }
+    .close-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-content {
+        padding: 1rem;
+    }
+    .sidebar a {
+        padding: 0.8rem 1rem;
+        text-decoration: none;
+        font-size: 1rem;
+        color: white;
+        display: block;
+        transition: 0.3s;
+        border-radius: 8px;
+    }
+    .sidebar a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+    }
+    /* Sidebar Dropdown */
+    .sidebar-dropdown {
+        margin: 0.5rem 0;
+    }
+    .dropdown-btn {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        text-align: left;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+    .dropdown-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-dropdown-content {
+        display: none;
+        padding-left: 1rem;
+    }
+    .sidebar-dropdown-content a {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+    .sidebar-dropdown.active .dropdown-icon {
+        transform: rotate(180deg);
+    }
+    .sidebar-dropdown.active .sidebar-dropdown-content {
+        display: block;
+    }
+
+    /* Rules Section Styling */
+    .rules-section {
+        width: 100%;
+        max-width: 1200px;
+        margin: 100px auto 50px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .rules-header {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        color: var(--primary-color);
+    }
+
+    .rules-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .rules-list li {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 15px 20px;
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: 500;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .rules-list li:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .details {
+        display: none;
+        margin-top: 10px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-left: 4px solid var(--primary-color);
+        font-size: 16px;
+        line-height: 1.6;
+        border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .rules-section {
+            margin: 20px;
+        }
+
+        .rules-header {
+            font-size: 24px;
+        }
+
+        .rules-list li {
+            font-size: 16px;
+            padding: 12px 16px;
+        }
+    }
+
+    /* Footer Styles */
+    .footer {
+        background: var(--primary-color);
+        color: var(--text-light);
+        padding: 4rem 2rem 2rem;
+        margin-top: 100px;
+    }
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+    }
+    .map-container {
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .map-container iframe {
+        width: 100%;
+        height: 300px;
+        border: none;
+    }
+    .contact-details {
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    .contact-details h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        font-family: 'Playfair Display', serif;
+    }
+    .footer-bottom {
+        margin-top: 3rem;
+        padding: 1.5rem;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsive Styles */
+    @media screen and (max-width: 768px) {
+        .mobile-menu-btn {
+            display: block;
+        }
+        .navbar-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--primary-color);
+            flex-direction: column;
+            padding: 1rem;
+            align-items: flex-start;
+        }
+        .navbar-links.active {
+            display: flex;
+        }
+    }
+    @media (max-width: 1024px) {
+        .navbar-container {
+            padding: 0 1rem;
+        }
+        .School_name {
+            font-size: 1.1rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="mySidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="logo.jpg" alt="School Logo" class="sidebar-logo-img">
+                <span class="sidebar-school-name">Nayana Vidyanikethana Patashale</span>
+            </div>
+            <button class="close-btn" onclick="closeNav()">×</button>
+        </div>
+        <div class="sidebar-content">
+            <a href="index.html">Home</a>
+            <div class="sidebar-dropdown">
+                <button class="dropdown-btn">About
+                    <span class="dropdown-icon">▼</span>
+                </button>
+                <div class="sidebar-dropdown-content">
+                    <a href="about_us.html">About the School</a>
+                    <a href="facilities.html">Facilities</a>
+                    <a href="rules_and_regulations.html">Our Rules and Regulations</a>
+                    <a href="achievements.html">Our Achievements</a>
+                </div>
+            </div>
+            <a href="admission_notice.html">Admissions</a>
+            <a href="student_life.html">Student Life</a>
+            <a href="our_faculty.html">Faculty</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <img class="logo" src="logo.jpg" alt="School Logo">
+                <div class="School_name">Nayana Vidyanikethana Patashale</div>
+            </div>
+            <div class="navbar-links">
+                <a href="index.html">Home</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">About <span class="dropdown-icon">▼</span></a>
+                    <div class="dropdown-content">
+                        <a href="about_us.html">About the School</a>
+                        <a href="facilities.html">Facilities</a>
+                        <a href="rules_and_regulations.html">Our Rules and Regulations</a>
+                        <a href="achievements.html">Our Achievements</a>
+                    </div>
+                </div>
+                <a href="admission_notice.html">Admissions</a>
+                <a href="student_life.html">Student Life</a>
+                <a href="our_faculty.html">Faculty</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="openNav()">☰</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="rules-section">
+        <div class="rules-header">Rules and Regulations</div>
+        <ul class="rules-list">
+            <!-- Your existing rules content here -->
+            <!-- ... (same as original rules content) ... -->
+            <li onclick="toggleDetails('admission-details')">Admission</li>
+            <div id="admission-details" class="details">
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                        Admissions to Nayana Vidyanikethana Patashale  are restricted by certain government regulations and by condition of age, mental attitude, ability, and conduct of the candidate.
+                    </li>                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px;"></span>
+                        Applicants for admission will be interviewed, tested, and admitted to the standard they are found fit, according to the vacancies available.
+                    </li>
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px;"></span>
+                        Every candidate for admission must be introduced by the parent/guardian who will be responsible for their conduct, progress in studies, discipline, and payment of fees.
+                    </li>
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px;"></span>
+                        The Principal reserves the right of refusing admission to a pupil without ascribing any reason for it.
+                    </li>
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px;"></span>
+                        Admissions to the State and CBSE stream are made by the School authorities from our Upper Kindergarten depending on their norms of selection and availability of seats.
+                    </li>
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px;"></span>
+                        The school has not authorized any agency or person outside school to help parents in seeking admission.
+                    </li>
+                </ul>
+            </div>
+            
+
+            <li onclick="toggleDetails('withdrawal-details')">Withdrawal</li>
+            <div id="withdrawal-details" class="details">
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                        Parents wishing to withdraw their child must submit a formal application.
+                    </li>
+                
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                                Transfer certificates will be issued only when the parent / guardian applies for it in the prescribed form after all the dues have been cleared in the office.
+                    </li>
+                 
+    
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                            Fees are due as long as no notice of withdrawal of student from School is given.
+                   </li>
+                
+               <ul style="list-style-type: none; padding: 0; margin: 0;">
+                       <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                        Duplicates of transfer certificates will not be issued unless the request is supported by an affidavit, stating reason for the request, with prescribed fee.
+                   </li>   
+                
+            </div>
+
+            <li onclick="toggleDetails('dismissal-details')">Dismissal</li>
+<div id="dismissal-details" class="details">
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            The school reserves the right to dismiss students for repeated misconduct.
+        </li>
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            Irregular attendance.
+        </li> 
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            Habitual idleness.
+        </li>
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            Disobedience or defiance of authority.
+        </li>
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            Non co-operation or misconduct of parent.
+        </li>
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            Malpractice in connection with examinations.
+        </li> 
+     <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            Misbehaviour in public places, streets and conveyances.
+        </li> 
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            Lack of sufficient improvement in conduct and studies even after warnings.
+        </li> 
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+            <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+            Conduct injurious to the moral tone of the School.
+        </li> 
+
+                  
+     </div>
+
+     <li onclick="toggleDetails('school-fees-details')">School Fees</li>
+     <div id="school-fees-details" class="details">
+         <ul style="list-style-type: none; padding: 0; margin: 0;">
+             <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                 <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                 School fees must be paid by the deadlines set by the administration.
+             </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+             <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                 <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                 Defaulters, once removed from the rolls, may be re-admitted on clearing the dues at the discretion of the Principal.
+             </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+             <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                 <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                 Students joining or leaving in the middle of a term shall pay for the full term. They have to close all accounts due before taking out any certificate.
+             </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+             <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                 <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                 The fee, once paid (including bus fee), will not be refunded on any account.
+             </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+             <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                 <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                 If ID, Academic Planner, or Assessment Report is lost, a new one should be purchased.
+             </li>     
+         </ul>
+     </div>
+     <li onclick="toggleDetails('application-tc-details')">Application for T.C.</li>
+    <div id="application-tc-details" class="details">
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                    <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                    Application for T. C. must be given within 10days from the date of publication of the results. If it is given after the mentioned date or during the middle of the year the tuition fee for the remaining part of the academic year will have to be paid..
+             </li>
+            </ul>
+        </div>
+        
+    <li onclick="toggleDetails('rules-discipline-details')">Rules of Discipline</li>
+    <div id="rules-discipline-details" class="details">
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                As regular attendance is an important element for successful school work, no student should absent, himself / herself from class without sufficient reasons.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Absence due to illness or any other reason should be intimated at once. Prior permission is required even for a short period of leave - day or two. Leave record should be duly filled by the parent / guardian on the pages provided in Hand Book.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Parents / guardians are requested to refrain from asking for special leave to attend weddings of other than the child’s own brother or sister or for religious ceremonies, social functions and domestic celebrations as leave for such purpose, is normally not granted during term days.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Children are not allowed to bring any valuable articles such as wrist watch, electronic gadgets, Camera, radio, mobile phone, jewellery etc. with them. School shall not be responsible for lost or stolen articles.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Improper conduct reflecting character, irregularity, continual neglect of studies, disobedience, insubordination and disrespect towards members of the staff, fights, fraudulence malpractice at tests and examinations, thieving, immoral behavior and other serious intentional offence, will attract expulsion from the school.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Complaints by parents, if any, or remarks about the staff or school functioning must be brought to the notice of the Principal or Manager, and not to the staff concerned, in writing.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                The Management, Principal and staff will not be held responsible for any accidents or mishaps that may occur to the student, either on the premises or during to and fro journey to school.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Speaking English is compulsory on school premises, in the school bus and at the bus stops while awaiting to board the bus.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Students shall be responsible for the safe custody of their belongings. As a precautionary measure, it is suggested that they have their names inscribed on dress, articles like tiffin carriers, umbrellas, school bags, pencil box, etc. The school authorities will not be responsible for the loss of articles of students.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Lost articles retrieved must be claimed from the school office within a week, after stipulated time limit unclaimed articles will be disposed of.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Any damage caused to the movable/immovable property of the school must be immediately reported to the Principal and will have to be made good.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Classrooms and the school premises shall be kept neat and tidy. All waste papers must be put in the proper receptacle. Students must make a point of picking up and disposing of litter and caring for the appearance of the school. Plantation drives and clean up campaigns shall be done on the campus to sensitize students towards ‘Swatch Bharat’ and other environmental issues. All students are expected to participate.
+            </li>
+            
+        </ul>
+    </div>   
+    <li onclick="toggleDetails('discipline_regarding_school_uniform-details')">Discipline Regarding School Uniform</li>
+    <div id="discipline_regarding_school_uniform-details" class="details">
+         <ul style="list-style-type: none; padding: 0; margin: 0;">
+             <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                 <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                 It is compulsory that all students should be in full uniform as instructed.
+             </li> 
+             <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Boys should wear vests under the shirt and avoid low-waist trousers at school.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Girls should not wear their hair loose. Avoid all cosmetics.
+            </li> 
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Girls from classes 1-10 should wear their hair in two plaits.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Gold ornaments, fancy ear rings and bangles are not allowed in the school.
+            </li> 
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                On festive occasions students should wear modest dress well below knee level.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Socks and inner wear should be washed daily.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                Students are not permitted to grow / polish their nails, color their hair, use kajal/ eyeliner / eye shadows / bindi. Senior boys are not permitted to grow moustache, beard or to come unshaven to school.
+            </li>
+            <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                All fashion wears are prohibited in school.
+
+            </li>
+
+            </ul>
+        </div>
+            <li onclick="toggleDetails('special_disciplinary_measures-details')">Special Disciplinary Measures</li>
+            <div id="special_disciplinary_measures-details" class="details">
+                <ul style="list-style-type: none; padding: 0; margin: 0;"></ul>
+                <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                    <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                    Parents will not be permitted to escort their ward to the respective class rooms. They have to leave their ward at the entrance before 9.15a.m. for classes I to X. After 9.20 a.m. they will not be allowed inside the campus.
+                </li>
+                <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                    <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                    Visitors, Parents / Escorts have to park their vehicles in the parking areas. If found violating the guidelines, permission to enter the campus may be denied by the Security Personnel.
+                </li>
+                <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                    <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                    The private vans are allowed inside the campus only after School buses are sent out through Gate in the afternoon.
+                </li>
+                <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                    <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                    Parents are requested to verify and check the credibility and safety of your children coming by private vans.
+                </li>
+                <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                    <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                    Every visitor coming to the School has to sign in the Log book kept with the security at the gate with all relevant details. They may be asked to deposit their photo ID card with security office, if required. They have to sign out when they go out of the campus..
+                </li>
+                <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                    <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                    All visitors must sign-in and sign-out in the security office and carry a visitor's card.
+                </li>
+                
+                <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                    <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                    No parent will be allowed to meet the teachers on the campus during working hours without prior appointment with the teacher. To take a prior appointment with their teacher, send a note to the concerned teacher through your ward..
+                </li>
+                
+
+                </li>
+                
+     </div>
+
+            <li onclick="toggleDetails('rules_&_regulations_leave_rules-details')">Rules & Regulations Leave Rules</li>
+            <div id="rules_&_regulations_leave_rules-details" class="details">
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                        Leave to students for absence is granted only on applications submitted on time. Leave must also be recorded in the student’s Diary.
+                    </li> 
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                        Medical certificate should be attached with the application in case of illness.
+                    </li>
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                        Students are strictly instructed not to take study leave before the examination other than the leave declared by the school. Parents also should cooperate in this regard.
+                    </li>
+                    <li style="background-color: white; color: black; padding: 15px; margin-bottom: 10px; border-radius: 5px; text-align: justify; line-height: 1.6;">
+                        <span style="width: 10px; height: 10px; background-color: #3282B8; border-radius: 50%; display: inline-block; margin-right: 10px; vertical-align: middle;"></span>
+                        Students should not prolong the holidays without the permission of the Principal.
+                    </li>
+            
+        </ul>
+    </div>
+        </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.4792720909886!2d77.4802536751554!3d12.87687408742984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f598d335973%3A0xaed53f68591c9b4e!2sNayana%20Vidyanikethana%20Patashale!5e0!3m2!1sen!2sin!4v1736152862000!5m2!1sen!2sin" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div class="contact-details">
+                <h3>Contact Us</h3>
+                <p><strong>Email:</strong> nayana.vidya.nikethana@gmail.com</p>
+                <p><strong>Phone:</strong> 9980183555</p>
+                <p><strong>Address:</strong> VFGM+P4W, C.V., 3rd Cross Rd, JP Nagar, Raghavana Palya, Karnataka 560062</p>
+                <p><strong>School Timing:</strong> 9:00 AM - 4:00 PM</p>
+                <p><strong>Office Timing:</strong> 9:00 AM - 5:30 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Padhashala. All Rights Reserved.</p>
+            <p>VFGM+P4W, C.V., 3rd Cross Rd, JP Nagar, Raghavana Palya, Karnataka 560062 | 9980183555 | nayana.vidya.nikethana@gmail.com</p>
+        </div>
+    </div>
+
+    <script>
+    // Sidebar Toggle Functions
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "300px";
+    }
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+    }
+
+    // Rules Toggle Function
+    function toggleDetails(id) {
+        const element = document.getElementById(id);
+        element.style.display = element.style.display === "none" ? "block" : "none";
+    }
+
+    // Sidebar Dropdown Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+        dropdownBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const dropdownParent = this.parentElement;
+                const wasActive = dropdownParent.classList.contains('active');
+                // Close all dropdowns
+                document.querySelectorAll('.sidebar-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+                // Toggle the clicked dropdown
+                if (!wasActive) {
+                    dropdownParent.classList.add('active');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

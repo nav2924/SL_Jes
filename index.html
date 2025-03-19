@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nayana Vidyanikethana Patashale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --primary-color: #222e50;    /* Dark navy */
+    --secondary-color: #2a4849;  /* Dark teal */
+    --accent-color: #426b69;     /* Medium teal */
+    --background-light: #b5ca8d; /* Light sage green */
+    --text-dark: #222e50;        /* Dark navy */
+    --text-light: #FFFFFF;       /* White */
+    --success-color: #8bb174;    /* Sage green */
+    --warning-color: #b5ca8d;    /* Light sage green */
+}
+
+/* Update gradient backgrounds */
+.navbar {
+    background:var(--primary-color);
+}
+
+.hero-section {
+    background: linear-gradient(#b5ca8d,#8bb174),
+                url('/api/placeholder/1920/1080') center/cover no-repeat;
+}
+
+.achievements-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.button {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+}
+
+.sidebar {
+    background: linear-gradient(135deg,#b5ca8d,#8bb174);
+}
+
+.chatbot-toggle {
+    background: var(--secondary-color);
+}
+
+.achievement-number {
+    background: linear-gradient(45deg, #fff, var(--accent-color));
+}
+
+/* Update hover states */
+.navbar-links a:hover,
+.dropdown-content a:hover {
+    background: var(--accent-color);
+}
+
+.chatbot-option:hover {
+    background: var(--secondary-color);
+}
+
+/* Update active states */
+.achievement-box:hover {
+    transform: scale(1.05);
+    background: #7a9f70;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    line-height: 1.6;
+}
+
+.navbar {
+    background:var(--primary-color);
+    padding: 0.5rem;  /* Reduced padding */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;  /* Fixed height for navbar */
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    width: 40px;  /* Reduced size */
+    height: 40px;  /* Reduced size */
+    border-radius: 50%;
+}
+
+.School_name {
+    font-size: 1.2rem;  /* Reduced font size */
+    color: var(--text-light);
+    font-family: 'Playfair Display', serif;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 1.5rem;  /* Reduced gap */
+    align-items: center;
+    height: 100%;
+}
+
+.navbar-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.3rem 0.8rem;  /* Reduced padding */
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;  /* Reduced font size */
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.dropbtn {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+}
+
+.dropdown-icon {
+    font-size: 0.8rem;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(172, 87, 87, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: var(--text-dark) !important;
+    padding: 0.8rem 1rem !important;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background: var(--background-light);
+    color: var(--primary-color) !important;
+}
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #b5ca8d,#8bb174);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 0;
+    z-index: 1001;
+    box-shadow: 2px 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sidebar-logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.sidebar-school-name {
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-content {
+    padding: 1rem;
+}
+
+.sidebar a {
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    font-size: 1rem;
+    color: white;
+    display: block;
+    transition: 0.3s;
+    border-radius: 8px;
+}
+
+.sidebar a:hover {
+    background-color: rgba(62, 172, 28, 0.1);
+    transform:  translateX(5px);
+}
+
+/* Sidebar Dropdown */
+.sidebar-dropdown {
+    margin: 0.5rem 0;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.dropdown-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-dropdown-content {
+    display: none;
+    padding-left: 1rem;
+}
+
+.sidebar-dropdown-content a {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+}
+
+.sidebar-dropdown.active .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.sidebar-dropdown.active .sidebar-dropdown-content {
+    display: block;
+}
+
+/* Open button */
+.openbtn {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 1000;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background-color: rgba(44, 62, 80, 0.9);
+    color: rgb(131, 22, 22);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.openbtn:hover {
+    background-color: rgba(52, 152, 219, 0.9);
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+    }
+    
+    .sidebar-school-name {
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .navbar-container {
+        padding: 0 1rem;
+    }
+    
+    .School_name {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .navbar-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--primary-color);
+        flex-direction: column;
+        padding: 1rem;
+        align-items: flex-start;
+    }
+
+    .navbar-links.active {
+        display: flex;
+    }
+
+    .dropdown {
+        width: 100%;
+    }
+
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        background: rgba(179, 18, 18, 0.1);
+    }
+
+    .dropdown-content a {
+        color: var(--text-light) !important;
+        padding-left: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .School_name {
+        font-size: 0.9rem;
+    }
+
+    .logo {
+        width: 35px;
+        height: 35px;
+    }
+}
+/* Hero Section */
+.hero-section {
+    min-height: 100vh;
+    width: 100%;
+    padding-top: 80px;
+    background: linear-gradient(#b5ca8d,#8bb174),
+                url('/api/placeholder/1920/1080') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;    
+}
+
+.hero-text {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Vision Mission Section */
+.main-content {
+    padding: 4rem 2rem;
+    background: var(--background-light);
+}
+
+.vision-mission {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Achievements Section */
+.achievements-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-light);
+}
+
+.achievements-box {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.achievements-box h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.achievements-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.achievement-box {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.achievement-box:hover {
+    transform: scale(1.05);
+}
+
+.achievement-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #fff, var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 4rem 2rem;
+    background: var(--background-light);
+}
+
+.contact-box {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    background: white;
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contact-box h3 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-light);
+    border: none;
+    border-radius: 30px;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+.footer {
+    background: var(--primary-color);
+    color: var(--text-light);
+    padding: 4rem 2rem 2rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+}
+
+.map-container {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+}
+
+.contact-details {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.contact-details h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.footer-bottom {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .navbar-container {
+        padding: 0 1rem;
+    }
+
+    .School_name {
+        font-size: 1.2rem;
+    }
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--primary-color);
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .navbar-links.active {
+        display: flex;
+    }
+
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .achievements-container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-box {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .School_name {
+        font-size: 1rem;
+    }
+
+    .logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .hero-section {
+        padding-top: 60px;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .achievement-box {
+        padding: 1.5rem;
+    }
+
+    .contact-details {
+        padding: 1.5rem;
+    }
+}
+
+/* Image Carousel */
+.image-carousel {
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    height: 400px;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.carousel-image.active {
+    opacity: 1;
+}
+
+.carousel-buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 2;
+}
+
+.carousel-button {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-button:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.chatbot-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    
+    .chatbot-toggle {
+        background: #222e50;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .chatbot-toggle:hover {
+        transform: scale(1.1);
+        background: #426b69;
+    }
+    
+    .chat-window {
+        width: 350px;
+        height: 500px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        display: none;
+        flex-direction: column;
+    }
+    
+    .chat-header {
+        background: #222e50;
+        color: white;
+        padding: 15px;
+        border-radius: 15px 15px 0 0;
+        font-family: 'Playfair Display', serif;
+    }
+    
+    .chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background: #f8f9fa;
+    }
+    
+    .message {
+        margin: 10px 0;
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 15px;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .user-message {
+        background: #426b69;
+        color: white;
+        margin-left: auto;
+    }
+    
+    .bot-message {
+        background: white;
+        border: 1px solid #eee;
+        margin-right: auto;
+    }
+    
+    .quick-replies {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 10px;
+        background: white;
+        border-top: 1px solid #eee;
+    }
+    
+    .quick-reply {
+        background: #f0f3f5;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .quick-reply:hover {
+        background: #426b69;
+        color: white;
+    }
+    
+    .chat-input {
+        display: flex;
+        padding: 15px;
+        border-top: 1px solid #eee;
+    }
+    
+    .chat-input input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        margin-right: 10px;
+    }
+    
+    .chat-input button {
+        background: #426b69;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+    
+    .chat-input button:hover {
+        background: #2a4849;
+    }
+    
+    .typing-indicator {
+        display: none;
+        padding: 10px 15px;
+        font-style: italic;
+        color: #666;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+@media screen and (max-width: 1024px) {
+    .sidebar {
+         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+}
+
+
+    </style>
+</head>
+</html>
+<body>
+    <!-- Sidebar -->
+<div class="sidebar" id="mySidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">
+            <img src="logo.jpg" alt="School Logo" class="sidebar-logo-img">
+            <span class="sidebar-school-name">Nayana Vidyanikethana Patashale</span>
+        </div>
+        <button class="close-btn" onclick="closeNav()">×</button>
+    </div>
+    <div class="sidebar-content">
+        <a href="index.html">Home</a>
+        <div class="sidebar-dropdown">
+            <button class="dropdown-btn">About
+                <span class="dropdown-icon">▼</span>
+            </button>
+            <div class="sidebar-dropdown-content">
+                <a href="about_us.html">About the School</a>
+                <a href="facilities.html">Facilities</a>
+                <a href="rules_and_regulations.html">Our Rules and Regulations</a>
+                <a href="achievements.html">Our Achievements</a>
+            </div>
+        </div>
+        <a href="admission_notice.html">Admissions</a>
+        <a href="student_life.html">Student Life</a>
+        <a href="our_faculty.html">Faculty</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact Us</a>
+    </div>
+</div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-logo">
+            <img class="logo" src="logo.jpg" alt="School Logo">
+            <div class="School_name">Nayana Vidyanikethana Patashale</div>
+        </div>
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">About <span class="dropdown-icon">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="about_us.html">About the School</a>
+                    <a href="facilities.html">Facilities</a>
+                    <a href="rules_and_regulations.html">Our Rules and Regulations</a>
+                    <a href="achievements.html">Our Achievements</a>
+                </div>
+            </div>
+            <a href="admission_notice.html">Admissions</a>
+            <a href="student_life.html">Student Life</a>
+            <a href="our_faculty.html">Faculty</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+        <!-- Use the same function to open the sidebar -->
+        <button class="mobile-menu-btn" onclick="openNav()">☰</button>
+    </div>
+</div>
+
+
+    <div class="hero-section">
+        <div class="hero-text">
+            <h1>Welcome to Nayana Vidyanikethana Patashale</h1>
+            <p>I welcome you all to an outstanding learning community where everyone is dedicated to a high standard of excellence. </p>
+            <p>We truly have a fantastic school with a supportive and involved parent community, dedicated and highly skillful staff, excellent resources and buildings and the most fantastic students to work with. </p>
+        </div>
+    
+        <div class="image-carousel">
+            <img src="20240919_173002.jpg" alt="Image 1" class="carousel-image active" data-index="0">
+            <img src="IMG_20240927_101714.jpg" alt="Image 2" class="carousel-image" data-index="1">
+            <img src="WhatsApp Image 2024-11-26 at 17.19.53_4b384c96.jpg" alt="Image 3" class="carousel-image" data-index="2">
+    
+            <div class="carousel-buttons">
+                <button class="carousel-button" id="prev">&#9664; Prev</button>
+                <button class="carousel-button" id="next">Next &#9654;</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+
+    <div class="main-content">
+        <div class="card">
+            <h3>Our Vision</h3>
+            <p>Creating a better future through innovative education and a commitment to academic excellence.</p>
+        </div>
+        <div class="card">
+            <h3>Admissions</h3>
+            <p>Join our institution and take the first step towards a brighter tomorrow. Enroll now!</p>
+        </div>
+        <div class="card">
+            <h3>Student Life</h3>
+            <p>Explore a vibrant and engaging student community filled with opportunities to grow and excel.</p>
+        </div>
+    </div>
+    <section class="achievements-section">
+        <div class="achievements-box">
+            <h2>Our Achievements</h2>
+            <p class="achievements-description">
+                Besides the academic syllabus, special classes, training sessions, and orientation classes for the students are arranged regularly. DCI exams, Sathyadeepam, Chindana science, and handwriting competitions are conducted every year. Clubs and libraries serve as advanced educational opportunities for learners.
+            </p>
+    
+            <div class="achievements-container">
+                <div class="achievement-box">
+                    <div class="achievement-number">13+</div>
+                    <div class="achievement-text">Experienced Faculties</div>
+                </div>
+                <div class="achievement-box">
+                    <div class="achievement-number">500+</div>
+                    <div class="achievement-text">Students Enrolled</div>
+                </div>
+                <div class="achievement-box">
+                    <div class="achievement-number">100%</div>
+                    <div class="achievement-text">Satisfied Parents</div>
+                </div>
+                <div class="achievement-box">
+                    <div class="achievement-number">20+</div>
+                    <div class="achievement-text">Years of Experience</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
+        <div class="chat-window">
+            <div class="chat-header">
+                <h3>Padhashala Assistant</h3>
+                <p>How can I help you today?</p>
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="typing-indicator" id="typing">Assistant is typing...</div>
+            <div class="quick-replies" id="quick-replies"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your question...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    
+    <section class="contact-section">
+        <div class="contact-box">
+            <h3>HAVE QUESTIONS?</h3>
+            <p>Want to know more? Share your queries with us now, and we will get back to you.</p>
+            <button class="button" onclick="redirectToPage()">CONTACT NOW</button>
+        </div>
+    </section>
+    
+
+    <!-- Footer Section -->
+<div class="footer">
+    <div class="footer-content">
+        <!-- Map Section -->
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.4792720909886!2d77.4802536751554!3d12.87687408742984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f598d335973%3A0xaed53f68591c9b4e!2sNayana%20Vidyanikethana%20Patashale!5e0!3m2!1sen!2sin!4v1736152862000!5m2!1sen!2sin" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+
+        <!-- Contact Details Section -->
+        <div class="contact-details">
+            <h3>Contact Us</h3>
+            <p><strong>Email:</strong> nayana.vidya.nikethana@gmail.com</p>
+            <p><strong>Phone:</strong> 9980183555</p>
+            <p><strong>Address:</strong> VFGM+P4W, C.V., 3rd Cross Rd, JP Nagar, Raghavana Palya, Karnataka 560062</p>
+            <p><strong>School Timing:</strong> 9:00 AM - 4:00 PM</p>
+            <p><strong>Office Timing:</strong> 9:00 AM - 5:30 PM</p>
+        </div>
+    </div>
+
+    <!-- Footer Bottom Section -->
+    <div class="footer-bottom">
+        <p>&copy; 2025 Padhashala. All Rights Reserved.</p>
+        <p>VFGM+P4W, C.V., 3rd Cross Rd, JP Nagar, Raghavana Palya, Karnataka 560062 | 9980183555 | nayana.vidya.nikethana@gmail.com</p>
+    </div>
+</div>
+</body>
+</html>
+<script>
+
+
+    // Keep these lines (or vice versa if you prefer 250px):
+function openNav() {
+    document.getElementById("mySidebar").style.width = "300px";
+}
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+}
+
+
+    const images = document.querySelectorAll('.carousel-image');
+    let currentIndex = 0;
+
+    // Function to show the current image
+    function showImage(index) {
+        images.forEach((img, i) => {
+            img.classList.toggle('active', i === index);
+        });
+    }
+
+    // Show next image
+    function showNextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    }
+
+    // Show previous image
+    function showPrevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+    }
+
+    // Set up event listeners for buttons
+    document.getElementById('next').addEventListener('click', showNextImage);
+    document.getElementById('prev').addEventListener('click', showPrevImage);
+
+    // Automatic slide change every 3 seconds
+    setInterval(showNextImage, 3000);
+
+    function redirectToPage() {
+        window.location.href = "contact.html"; // Replace with your target page URL
+    }
+
+
+    const chatbotContainer = document.getElementById("chatbot");
+
+    function toggleChatbot() {
+        const isHidden = chatbotContainer.style.display === "none" || chatbotContainer.style.display === "";
+        chatbotContainer.style.display = isHidden ? "flex" : "none";
+    }
+
+    function handleOption(option) {
+        const messagesContainer = document.getElementById("chatbot-messages");
+        const userMessage = document.createElement("div");
+        userMessage.textContent = `You selected: ${option}`;
+        userMessage.style.padding = "10px";
+        userMessage.style.margin = "10px 0";
+        userMessage.style.borderRadius = "10px";
+        userMessage.style.backgroundColor = "#e0e0e0";
+        userMessage.style.textAlign = "right";
+        messagesContainer.appendChild(userMessage);
+
+        const botResponse = document.createElement("div");
+        botResponse.innerHTML = getBotResponse(option);
+        botResponse.style.padding = "10px";
+        botResponse.style.margin = "10px 0";
+        botResponse.style.borderRadius = "10px";
+        botResponse.style.backgroundColor = "#d4edda";
+        botResponse.style.textAlign = "left";
+        messagesContainer.appendChild(botResponse);
+
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function getBotResponse(option) {
+        switch (option.toLowerCase()) {
+            case "admissions":
+                return 'To enroll at Nayana Vidyanikethana Patashale, please visit the <a href="admission_notice.html">Admissions</a> page.';
+            case "facilities":
+                return 'Our school provides modern classrooms, labs, and sports facilities. Visit our <a href="facilities.html">Facilities</a> page for more.';
+            case "rules":
+                return 'Our <a href="rules_and_regulations.html">Rules and Regulations</a> page outlines the school\'s policies.';
+            case "achievements":
+                return 'Check our <a href="achievements.html">Achievements</a> page to see what we\'ve accomplished!';
+            case "contact":
+                return 'Contact us at nayana.vidya.nikethana@gmail.com or call 9980183555. For more information, visit our <a href="contact.html">Contact</a> page.';
+            case "timings":
+                return 'School hours: 9:00 AM to 4:00 PM. Office hours: 9:00 AM to 5:30 PM. For details, visit our <a href="index.html">Home</a> page.';
+            default:
+                return 'I\'m here to assist you with any queries! Visit our <a href="index.html">Home</a> page for more information.';
+        }
+    }
+
+    
+function openNav() {
+    document.getElementById("mySidebar").style.width = "300px";
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+}
+
+// Dropdown functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+    
+    dropdownBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const dropdownParent = this.parentElement;
+            const wasActive = dropdownParent.classList.contains('active');
+            
+            // Close all dropdowns
+            document.querySelectorAll('.sidebar-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+            
+            // If the clicked dropdown wasn't active, open it
+            if (!wasActive) {
+                dropdownParent.classList.add('active');
+            }
+        });
+    });
+});
+
+//Chatbot Code
+let isChatOpen = false;
+const quickReplies = [
+    'Admissions', 'Facilities', 'Rules', 
+    'Achievements', 'Contact', 'Timings'
+];
+
+function toggleChat() {
+    const chatWindow = document.querySelector('.chat-window');
+    isChatOpen = !isChatOpen;
+    chatWindow.style.display = isChatOpen ? 'flex' : 'none';
+    if (isChatOpen) {
+        document.getElementById('user-input').focus();
+        showQuickReplies();
+    }
+}
+
+function showQuickReplies() {
+    const container = document.getElementById('quick-replies');
+    container.innerHTML = quickReplies.map(reply => `
+        <button class="quick-reply" onclick="handleQuickReply('${reply}')">
+            ${reply}
+        </button>
+    `).join('');
+}
+
+function handleQuickReply(reply) {
+    addMessage(reply, 'user');
+    processMessage(reply);
+}
+
+function addMessage(text, sender) {
+    const messages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    messageDiv.innerHTML = text;
+    messages.appendChild(messageDiv);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function showTyping() {
+    document.getElementById('typing').style.display = 'block';
+}
+
+function hideTyping() {
+    document.getElementById('typing').style.display = 'none';
+}
+
+async function processMessage(message) {
+    showTyping();
+    
+    // Simulate processing delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    const response = getBotResponse(message);
+    addMessage(response, 'bot');
+    hideTyping();
+    showQuickReplies();
+}
+
+function getBotResponse(input) {
+    input = input.toLowerCase();
+    const responses = {
+        admissions: {
+            keywords: ['admission', 'enroll', 'apply', 'join', 'admissions'],
+            response: `📚 <b>Admissions Information</b><br>
+                Our admission process begins every January. Check our 
+                <a href="admission_notice.html" target="_blank">Admissions Page</a> 
+                for requirements and important dates.<br><br>
+                <i>Would you like me to:</i><br>
+                • Email the admission brochure 📨<br>
+                • Schedule a campus tour 🏫<br>
+                • Connect with admissions office 📞`
+        },
+        facilities: {
+            keywords: ['facility', 'infrastructure', 'lab', 'sports', 'facilities'],
+            response: `🏫 <b>School Facilities</b><br>
+                We offer state-of-the-art facilities including:<br>
+                • Smart classrooms 💻<br>
+                • Science & Computer labs 🔬<br>
+                • Sports complex & playgrounds ⚽<br>
+                • Library & resource center 📚<br>
+                Explore our <a href="facilities.html" target="_blank">Facilities Gallery</a> 
+                for virtual tour.`
+        },
+        rules: {
+            keywords: ['rule', 'regulation', 'policy', 'dress code', 'uniform'],
+            response: `📜 <b>School Policies</b><br>
+                We maintain a positive environment through our 
+                <a href="rules_and_regulations.html" target="_blank">Well-defined Policies</a>.<br><br>
+                <i>Common queries:</i><br>
+                • Uniform guidelines 👔<br>
+                • Attendance requirements 📅<br>
+                • Code of conduct ✅`
+        },
+        achievements: {
+            keywords: ['achievement', 'result', 'award', 'rank', 'accolade'],
+            response: `🏆 <b>Our Achievements</b><br>
+                Recent accomplishments include:<br>
+                • 100% board exam results 📈<br>
+                • State-level sports champions 🏅<br>
+                • National science fair winners 🔭<br>
+                See our <a href="achievements.html" target="_blank">Hall of Fame</a> 
+                for more details.`
+        },
+        contact: {
+            keywords: ['contact', 'reach', 'visit', 'location', 'address'],
+            response: `📞 <b>Contact Information</b><br>
+                <a href="contact.html" target="_blank">Contact Page</a><br>
+                Phone: 9980183555<br>
+                Email: nayana.vidya.nikethana@gmail.com<br>
+                Address: JP Nagar, Bangalore<br><br>
+                Office Hours: Mon-Sat, 9AM-5PM`
+        },
+        timings: {
+            keywords: ['time', 'hour', 'schedule', 'holiday', 'timings'],
+            response: `⏰ <b>School Timings</b><br>
+                School Hours: 8:30AM-3:30PM (Mon-Fri)<br>
+                Office Hours: 8:30AM-5:00PM (Mon-Sat)<br><br>
+                <i>Important:</i><br>
+                • Holiday list available on portal 📅<br>
+                • Event schedules updated monthly 🗓️<br>
+                • Parent-teacher meeting schedules 👨👩👧👦`
+        }
+    };
+
+    const match = Object.entries(responses).find(([_, data]) => 
+        data.keywords.some(keyword => input.includes(keyword))
+    );
+
+    return match ? match[1].response : 
+        `🤖 <b>How else can I help?</b><br>
+        Try asking about:<br>
+        • Admission process steps<br>
+        • School fee structure<br>
+        • Extracurricular activities<br>
+        • Transportation options<br>
+        • Or choose from quick replies below ⬇️`;
+}
+
+function sendMessage() {
+    const input = document.getElementById('user-input');
+    if (input.value.trim()) {
+        addMessage(input.value, 'user');
+        processMessage(input.value);
+        input.value = '';
+    }
+}
+
+// Handle Enter key
+document.getElementById('user-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+});
+
+    
+</script>

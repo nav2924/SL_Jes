@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Padhashala</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    /* Global Styles & Root Colours */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    :root {
+        --primary-color: #222e50;    /* Dark navy */
+        --secondary-color: #2a4849;  /* Dark teal */
+        --accent-color: #426b69;     /* Medium teal */
+        --background-light: #b5ca8d;  /* Light sage green */
+        --text-dark: #222e50;        /* Dark navy */
+        --text-light: #FFFFFF;       /* White */
+        --success-color: #8bb174;    /* Sage green */
+        --warning-color: #b5ca8d;    /* Light sage green */
+    }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f6f9fc, #e6eff5);
+        color: var(--text-dark);
+        line-height: 1.6;
+        margin-top: 50px;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+        background: var(--primary-color);
+        padding: 0.5rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+    }
+    .navbar-logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    .School_name {
+        font-size: 1.2rem;
+        color: var(--text-light);
+        font-family: 'Playfair Display', serif;
+    }
+    .navbar-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        height: 100%;
+    }
+    .navbar-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+    .navbar-links a:hover,
+    .dropdown-content a:hover {
+        background: var(--accent-color);
+    }
+    /* Navbar Dropdown */
+    .dropdown {
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .dropbtn {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        cursor: pointer;
+    }
+    .dropdown-icon {
+        font-size: 0.8rem;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 200px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .dropdown-content a {
+        color: var(--text-dark) !important;
+        padding: 0.8rem 1rem !important;
+        display: block;
+        font-size: 0.9rem;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text-light);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: linear-gradient(135deg, var(--background-light), var(--success-color));
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 0;
+        z-index: 1001;
+        box-shadow: 2px 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-header {
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .sidebar-logo-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    .sidebar-school-name {
+        color: var(--text-light);
+        font-size: 1rem;
+        font-family: 'Playfair Display', serif;
+    }
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+    }
+    .close-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-content {
+        padding: 1rem;
+    }
+    .sidebar a {
+        padding: 0.8rem 1rem;
+        text-decoration: none;
+        font-size: 1rem;
+        color: white;
+        display: block;
+        transition: 0.3s;
+        border-radius: 8px;
+    }
+    .sidebar a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+    }
+    /* Sidebar Dropdown */
+    .sidebar-dropdown {
+        margin: 0.5rem 0;
+    }
+    .dropdown-btn {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        text-align: left;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+    .dropdown-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-dropdown-content {
+        display: none;
+        padding-left: 1rem;
+    }
+    .sidebar-dropdown-content a {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+    .sidebar-dropdown.active .dropdown-icon {
+        transform: rotate(180deg);
+    }
+    .sidebar-dropdown.active .sidebar-dropdown-content {
+        display: block;
+    }
+
+    /* Main Content Styles */
+    .main {
+        padding: 2rem;
+        margin-top: 50px;
+    }
+
+    h1, h2 {
+        color: var(--primary-color);
+        font-family: 'Playfair Display', serif;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin: 2rem 0;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 3px solid var(--accent-color);
+        display: inline-block;
+        padding-bottom: 0.5rem;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Section Styles */
+    .section {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Cards */
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 3px solid var(--accent-color);
+    }
+
+    .card h3 {
+        padding: 1rem;
+        font-size: 1.4rem;
+        background-color: var(--primary-color);
+        color: white;
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .card p {
+        padding: 1rem;
+        font-size: 1rem;
+        color: var(--secondary-color);
+        line-height: 1.6;
+    }
+
+    .card i {
+        font-size: 2rem;
+        color: var(--accent-color);
+        margin: 1rem 0;
+        display: block;
+        text-align: center;
+    }
+
+    /* Footer Styles */
+    .footer {
+        background: var(--primary-color);
+        color: var(--text-light);
+        padding: 4rem 2rem 2rem;
+        margin-top: 4rem;
+    }
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+    }
+    .map-container {
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .map-container iframe {
+        width: 100%;
+        height: 300px;
+        border: none;
+    }
+    .contact-details {
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    .contact-details h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        font-family: 'Playfair Display', serif;
+    }
+    .footer-bottom {
+        margin-top: 3rem;
+        padding: 1.5rem;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsive Styles */
+    @media screen and (max-width: 768px) {
+        .mobile-menu-btn {
+            display: block;
+        }
+        .navbar-links {
+            display: none;
+        }
+        h1 {
+            font-size: 2rem;
+        }
+        h2 {
+            font-size: 1.6rem;
+        }
+        .section {
+            padding: 1.5rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="mySidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="logo.jpg" alt="School Logo" class="sidebar-logo-img">
+                <span class="sidebar-school-name">Nayana Vidyanikethana Patashale</span>
+            </div>
+            <button class="close-btn" onclick="closeNav()">×</button>
+        </div>
+        <div class="sidebar-content">
+            <a href="index.html">Home</a>
+            <div class="sidebar-dropdown">
+                <button class="dropdown-btn">About
+                    <span class="dropdown-icon">▼</span>
+                </button>
+                <div class="sidebar-dropdown-content">
+                    <a href="about_us.html">About the School</a>
+                    <a href="facilities.html">Facilities</a>
+                    <a href="rules_and_regulations.html">Our Rules and Regulations</a>
+                    <a href="achievements.html">Our Achievements</a>
+                </div>
+            </div>
+            <a href="admission_notice.html">Admissions</a>
+            <a href="student_life.html">Student Life</a>
+            <a href="our_faculty.html">Faculty</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <img class="logo" src="logo.jpg" alt="School Logo">
+                <div class="School_name">Nayana Vidyanikethana Patashale</div>
+            </div>
+            <div class="navbar-links">
+                <a href="index.html">Home</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">About <span class="dropdown-icon">▼</span></a>
+                    <div class="dropdown-content">
+                        <a href="about_us.html">About the School</a>
+                        <a href="facilities.html">Facilities</a>
+                        <a href="rules_and_regulations.html">Our Rules and Regulations</a>
+                        <a href="achievements.html">Our Achievements</a>
+                    </div>
+                </div>
+                <a href="admission_notice.html">Admissions</a>
+                <a href="student_life.html">Student Life</a>
+                <a href="our_faculty.html">Faculty</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="openNav()">☰</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <h1>Student Life</h1>
+        <div class="container">
+            <!-- Overview -->
+            <div class="section">
+                <h2>Overview</h2>
+                <p class="content">At Padhashala, student life is enriched with diverse opportunities for growth, learning, and enjoyment. From academics to extracurriculars, we ensure a holistic environment for our students to thrive.</p>
+            </div>
+
+            <!-- Clubs and Extracurricular Activities -->
+            <div class="section">
+                <h2>Clubs</h2>
+                <div class="cards">
+                    <div class="card">
+                        <img src="Science-Club-1024x681.png" alt="Drama Club">
+                        <h3>Science Club</h3>
+                        <p>Unleash your creativity and stage talents with our vibrant Drama Club.</p>
+                    </div>
+                    <div class="card">
+                        <img src="Logo_Cultural-Club-300x300.png" alt="Robotics Club">
+                        <h3>Cultural Activity Club</h3>
+                        <p>Explore the fascinating world of technology and innovation in the Robotics Club.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sports and Athletics -->
+            <div class="section">
+                <h2>Sports and Athletics</h2>
+                <p class="content">Our school promotes physical fitness and teamwork through various sports, including cricket, football, kabbadi and Kho-Kho.</p>
+                <div class="cards">
+                    <div class="card">
+                        <img src="football.jpg" alt="Football">
+                        <h3>Football</h3>
+                    </div>
+                    <div class="card">
+                        <img src="cricket.jpg" alt="Cricket">
+                        <h3>Cricket</h3>
+                    </div>
+                    <div class="card">
+                        <img src="kabbaddi.jpg" alt="Kabaddi">
+                        <h3>Kabaddi</h3>
+                    </div>
+                    <div class="card">
+                        <img src="kho kho.jpg" alt="Kho-Kho">
+                        <h3>Kho-Kho</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cultural Events -->
+            <div class="section">
+                <h2>Cultural Events</h2>
+                <p class="content">Annual day celebrations, talent shows, and festivals bring our community together, celebrating diversity and creativity.</p>
+                <div class="card">
+                    <img src="kho kho.jpg" alt="Kho-Kho">
+                    <h3>Kho-Kho</h3>
+                </div>
+            </div>
+
+            <!-- Academic Support Programs -->
+            <div class="section">
+                <h2>Academic Support Programs</h2>
+                <p class="content">We offer peer tutoring, mentorship programs, and additional classes to support students' academic success.</p>
+            </div>
+
+            <!-- Uniform Information -->
+            <div class="section">
+                <h2>Uniform</h2>
+                <p class="content">Our school uniform represents unity and discipline. Students are required to adhere to the dress code for all academic and extracurricular activities. It promotes a sense of pride and equality among all students.</p>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="section">
+                <h2>Upcoming Events</h2>
+                <p class="content">Stay tuned for exciting upcoming events like science fairs, sports meets, and cultural fests.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.4792720909886!2d77.4802536751554!3d12.87687408742984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f598d335973%3A0xaed53f68591c9b4e!2sNayana%20Vidyanikethana%20Patashale!5e0!3m2!1sen!2sin!4v1736152862000!5m2!1sen!2sin" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div class="contact-details">
+                <h3>Contact Us</h3>
+                <p><strong>Email:</strong> nayana.vidya.nikethana@gmail.com</p>
+                <p><strong>Phone:</strong> 9980183555</p>
+                <p><strong>Address:</strong> VFGM+P4W, C.V., 3rd Cross Rd, JP Nagar, Raghavana Palya, Karnataka 560062</p>
+                <p><strong>School Timing:</strong> 9:00 AM - 4:00 PM</p>
+                <p><strong>Office Timing:</strong> 9:00 AM - 5:30 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Padhashala. All Rights Reserved.</p>
+            <p>VFGM+P4W, C.V., 3rd Cross Rd, JP Nagar, Raghavana Palya, Karnataka 560062 | 9980183555 | nayana.vidya.nikethana@gmail.com</p>
+        </div>
+    </div>
+</body>
+    <script>
+        // Sidebar Toggle Functions
+        function openNav() {
+          document.getElementById("mySidebar").style.width = "300px";
+        }
+        function closeNav() {
+          document.getElementById("mySidebar").style.width = "0";
+        }
+        // Sidebar Dropdown Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+          const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+          dropdownBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+              const dropdownParent = this.parentElement;
+              const wasActive = dropdownParent.classList.contains('active');
+              // Close all dropdowns
+              document.querySelectorAll('.sidebar-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+              });
+              // Toggle the clicked dropdown
+              if (!wasActive) {
+                dropdownParent.classList.add('active');
+              }
+            });
+          });
+        });
+      </script>
+    </body>
+    </html>
